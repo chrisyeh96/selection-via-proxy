@@ -23,11 +23,11 @@ ALL_SELECTION_METHODS = [
 ALL_SELECTION_METHODS += UNCERTAINTY_METHODS
 
 
-def select(model: nn.Module, dataset: Dataset, current: np.array,
-           pool: np.array, budget: int, method: str, batch_size: int,
+def select(model: nn.Module, dataset: Dataset, current: np.ndarray,
+           pool: np.ndarray, budget: int, method: str, batch_size: int,
            device: torch.device, device_ids: Tuple[int, ...], num_workers: int,
            use_cuda: bool, keep: str = 'fc',
-           nevents: Optional[np.array] = None) -> Tuple[np.array, Dict]:
+           nevents: Optional[np.ndarray] = None) -> Tuple[np.ndarray, Dict]:
     '''
     Select a subset of examples from a Dataset.
 
@@ -35,21 +35,21 @@ def select(model: nn.Module, dataset: Dataset, current: np.array,
     ----------
     model : nn.Module
     dataset : Dataset
-    current : np.array
-    pool : np.array
+    current : np.ndarray
+    pool : np.ndarray
     budget : int
     method : str
     batch_size : int
     device : torch.device
-    device_ids : Tuple[int]
+    device_ids : Tuple[int, ...]
     num_workers : int
     use_cuda : bool
     keep : str, name of final layer of model
-    nevents : np.array
+    nevents : np.ndarray
 
     Returns
     -------
-    update : numpp.array
+    update : np.ndarray
         New subset containing both new and `current` indices.
     stats : Dict
         Metadata about how long selection took.
@@ -138,9 +138,10 @@ def select(model: nn.Module, dataset: Dataset, current: np.array,
 
 
 def _calc_preds_and_features(
-        model: nn.Module, dataset: Dataset, subset: np.array, batch_size: int,
+        model: nn.Module, dataset: Dataset, subset: np.ndarray, batch_size: int,
         num_workers: int, device: torch.device, device_ids: Tuple[int, ...],
-        use_cuda: bool, keep: Optional[str] = None):
+        use_cuda: bool, keep: Optional[str] = None
+        ) -> Tuple[np.ndarray, Optional[np.ndarray]]:
     """
     Calculate predictions and features for selection methods.
     """
